@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRON — Intelligent Document Pattern Recognition & Question Prediction</title>
+  <meta name="description" content="TRON: AI-powered pattern recognition system for predicting exam questions from document analysis. Upload PDFs, scanned documents, images, and DOCX files." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <!-- ══════════════════════════════════════════════════════════════════
+       BACKGROUND EFFECTS
+       ══════════════════════════════════════════════════════════════════ -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow--1"></div>
+  <div class="bg-glow bg-glow--2"></div>
+  <div class="bg-glow bg-glow--3"></div>
+  <div class="scan-line"></div>
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       HEADER / NAV
+       ══════════════════════════════════════════════════════════════════ -->
+  <header id="app-header">
+    <div class="header-left">
+      <div class="logo" id="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="36" height="36" rx="8" stroke="url(#logo-grad)" stroke-width="2.5"/>
+            <path d="M12 14h16M16 20h8M14 26h12" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="30" cy="12" r="4" fill="url(#logo-grad)" opacity="0.8"/>
+            <defs>
+              <linearGradient id="logo-grad" x1="0" y1="0" x2="40" y2="40">
+                <stop stop-color="#00f0ff"/>
+                <stop offset="1" stop-color="#8b5cf6"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="logo-name">TRON</span>
+          <span class="logo-tag">Pattern Intelligence</span>
+        </div>
+      </div>
+    </div>
+    <nav class="header-nav" id="main-nav">
+      <button class="nav-btn active" data-view="upload" id="nav-upload">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload
+      </button>
+      <button class="nav-btn" data-view="documents" id="nav-documents">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Documents
+      </button>
+      <button class="nav-btn" data-view="patterns" id="nav-patterns">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Patterns
+      </button>
+      <button class="nav-btn" data-view="predictions" id="nav-predictions">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Predictions
+      </button>
+    </nav>
+    <div class="header-right">
+      <div class="doc-counter" id="doc-counter">
+        <span class="doc-counter-num" id="doc-count">0</span>
+        <span class="doc-counter-label">docs loaded</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ══════════════════════════════════════════════════════════════════ -->
+  <main id="app-main">
+
+    <!-- ──── UPLOAD VIEW ──── -->
+    <section class="view active" id="view-upload">
+      <div class="view-header">
+        <h1>Document Ingestion</h1>
+        <p class="view-subtitle">Upload PDFs, scanned images, DOCX files — TRON will extract, analyse, and map every question pattern.</p>
+      </div>
+
+      <div class="upload-zone" id="upload-zone">
+        <div class="upload-zone-inner">
+          <div class="upload-icon">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="4" width="72" height="72" rx="16" stroke="url(#up-grad)" stroke-width="2" stroke-dasharray="6 4"/>
+              <path d="M40 52V28M40 28l-8 8M40 28l8 8" stroke="url(#up-grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs>
+                <linearGradient id="up-grad" x1="0" y1="0" x2="80" y2="80">
+                  <stop stop-color="#00f0ff"/>
+                  <stop offset="1" stop-color="#8b5cf6"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h2 class="upload-title">Drop documents here</h2>
+          <p class="upload-desc">or click to browse files</p>
+          <div class="upload-formats">
+            <span class="format-tag">PDF</span>
+            <span class="format-tag">DOCX</span>
+            <span class="format-tag">PNG</span>
+            <span class="format-tag">JPG</span>
+            <span class="format-tag">JPEG</span>
+            <span class="format-tag">WEBP</span>
+            <span class="format-tag">BMP</span>
+          </div>
+          <input type="file" id="file-input" multiple accept=".pdf,.docx,.doc,.png,.jpg,.jpeg,.webp,.bmp" hidden />
+        </div>
+      </div>
+
+      <!-- Processing Queue -->
+      <div class="processing-queue" id="processing-queue" style="display:none;">
+        <h3 class="queue-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+          Processing Pipeline
+        </h3>
+        <div class="queue-list" id="queue-list"></div>
+      </div>
+    </section>
+
+    <!-- ──── DOCUMENTS VIEW ──── -->
+    <section class="view" id="view-documents">
+      <div class="view-header">
+        <h1>Document Library</h1>
+        <p class="view-subtitle">All ingested documents with extracted text and identified questions.</p>
+        <div class="view-actions">
+          <div class="search-box" id="doc-search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="doc-search" placeholder="Search documents..." />
+          </div>
+        </div>
+      </div>
+      <div class="documents-grid" id="documents-grid">
+        <div class="empty-state" id="docs-empty">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.3"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <p>No documents yet. Upload some files to get started.</p>
+        </div>
+      </div>
+
+      <!-- Document Detail Modal -->
+      <div class="modal-overlay" id="doc-modal" style="display:none;">
+        <div class="modal">
+          <button class="modal-close" id="modal-close">&times;</button>
+          <div class="modal-header">
+            <h2 id="modal-doc-title"></h2>
+            <div class="modal-meta" id="modal-doc-meta"></div>
+          </div>
+          <div class="modal-tabs">
+            <button class="modal-tab active" data-tab="extracted-text">Extracted Text</button>
+            <button class="modal-tab" data-tab="questions">Questions Found</button>
+            <button class="modal-tab" data-tab="topics">Topics</button>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <div class="modal-tab-content active" id="tab-extracted-text"></div>
+            <div class="modal-tab-content" id="tab-questions"></div>
+            <div class="modal-tab-content" id="tab-topics"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──── PATTERNS VIEW ──── -->
+    <section class="view" id="view-patterns">
+      <div class="view-header">
+        <h1>Pattern Analysis</h1>
+        <p class="view-subtitle">Topic frequency heatmap, question-type distribution, and cross-document correlation.</p>
+      </div>
+      <div class="patterns-dashboard" id="patterns-dashboard">
+        <div class="empty-state" id="patterns-empty">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.3"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <p>Upload at least 2 documents to see pattern analysis.</p>
+        </div>
+
+        <!-- Pattern Cards (rendered by JS) -->
+        <div class="pattern-grid" id="pattern-grid" style="display:none;">
+          <div class="pattern-card pattern-card--wide" id="card-topic-freq">
+            <div class="pattern-card-header">
+              <h3>Topic Frequency Heatmap</h3>
+              <span class="pattern-badge">Cross-Document</span>
+            </div>
+            <div class="pattern-card-body">
+              <canvas id="chart-topic-freq"></canvas>
+            </div>
+          </div>
+
+          <div class="pattern-card" id="card-q-types">
+            <div class="pattern-card-header">
+              <h3>Question Types</h3>
+              <span class="pattern-badge">Distribution</span>
+            </div>
+            <div class="pattern-card-body">
+              <canvas id="chart-q-types"></canvas>
+            </div>
+          </div>
+
+          <div class="pattern-card" id="card-difficulty">
+            <div class="pattern-card-header">
+              <h3>Difficulty Spread</h3>
+              <span class="pattern-badge">Analysis</span>
+            </div>
+            <div class="pattern-card-body">
+              <canvas id="chart-difficulty"></canvas>
+            </div>
+          </div>
+
+          <div class="pattern-card pattern-card--wide" id="card-correlation">
+            <div class="pattern-card-header">
+              <h3>Topic Correlation Matrix</h3>
+              <span class="pattern-badge">Linked Topics</span>
+            </div>
+            <div class="pattern-card-body" id="correlation-matrix"></div>
+          </div>
+
+          <div class="pattern-card pattern-card--full" id="card-timeline">
+            <div class="pattern-card-header">
+              <h3>Repetition Timeline</h3>
+              <span class="pattern-badge">Frequency over Documents</span>
+            </div>
+            <div class="pattern-card-body">
+              <canvas id="chart-timeline"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ──── PREDICTIONS VIEW ──── -->
+    <section class="view" id="view-predictions">
+      <div class="view-header">
+        <h1>Question Predictions</h1>
+        <p class="view-subtitle">AI-predicted questions based on pattern analysis, ranked by probability with full source citations.</p>
+        <div class="view-actions">
+          <button class="btn btn--primary" id="btn-generate-predictions">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Generate Predictions
+          </button>
+          <button class="btn btn--secondary" id="btn-export-predictions">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export Report
+          </button>
+        </div>
+      </div>
+      <div class="predictions-container" id="predictions-container">
+        <div class="empty-state" id="predictions-empty">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity="0.3"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          <p>Upload documents and click "Generate Predictions" to see predicted questions.</p>
+        </div>
+        <div class="predictions-list" id="predictions-list" style="display:none;"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ══════════════════════════════════════════════════════════════════
+       TOAST NOTIFICATIONS
+       ══════════════════════════════════════════════════════════════════ -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+</html>
